@@ -31,6 +31,10 @@ args = vars(ap_var.parse_args())
 image_path = args['image']
 image = cv2.imread(image_path)
 
+# Variables
+red=green=blue=x_point=y_point = 0
+clicked = False
+
 # Read the Datafile into a Dataframe.
 headings = ['Colour', 'Colour Name', 'Hex', 'R', 'G', 'B']
 data_frame = pd.read_csv('Data/colours.csv', names=headings, encoding='utf-8')
@@ -40,15 +44,15 @@ print(data_frame)
 cv2.namedWindow("Picture")
 cv2.setMouseCallback("Picture", draw)
 
-while True:
+while 1:
     cv2.imshow("Picture", image)
     if clicked:
         cv2.rectangle(image, (20, 20), (750, 60), (blue, green, red), -1)
         text = get_nearest_colour(red, green, blue)
-        cv2.putText(image, text, (50, 50), 2, 0.8, (255, 255, 255), 2, cv2.LINE_AAA)
-        if red+green+blue >= 600:
-            cv2.putText(image, text, (50, 50), 2, 0.8, (0, 0, 0), 2, cv2.LINE_AAA)
+        cv2.putText(image, text, (50, 50), 2, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
+        if red + green + blue >= 600:
+            cv2.putText(image, text, (50, 50), 2, 0.8, (0, 0, 0), 2, cv2.LINE_AA)
         clicked = False
-        if cv2.waitKey(20) & 0xFF==27:
-            break
+    if cv2.waitKey(20) & 0xFF == 27:
+        break
 cv2.destroyAllWindows()
